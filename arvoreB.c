@@ -1,3 +1,7 @@
+//Pedro Henrique Padilha Valente - 2510382
+//Henrique Rocha Baumeier - 2510744
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,7 +23,7 @@ No* criarNo()
 {
     No* novoNo = (No*)malloc(sizeof(No));
     if (novoNo == NULL) {
-        printf("Erro ao alocar memória para o nó.\n");
+        printf("Erro ao alocar memória para o no.\n");
         exit(1);
     }
     novoNo->numChaves = 0;
@@ -43,7 +47,24 @@ void imprimir(No* raiz, int nivel)
     imprimir(raiz->prox, nivel + 1);
 }
 
+void intervalo(No *arv, int lim_inf, int lim_sup) 
+{
+    if (arv == NULL) {
+        return;
+    }
 
+    int i;
+    for (i = 0; i < arv->numChaves; i++) {
+        intervalo(arv->filhos[i], lim_inf, lim_sup);
+
+        if (arv->chaves[i] > lim_inf && arv->chaves[i] < lim_sup) {
+            printf("%d ", arv->chaves[i]);
+        }
+    }
+
+
+    intervalo(arv->filhos[i], lim_inf, lim_sup);
+}
 
 int main(void)
 {
@@ -51,7 +72,8 @@ int main(void)
     raiz->numChaves = 1;
     raiz->chaves[0] = 100;
 
-    // Nível 1
+
+
     No *esq = criarNo();
     esq->numChaves = 2;
     esq->chaves[0] = 50;
@@ -66,7 +88,7 @@ int main(void)
     raiz->filhos[1] = dir;
 
 
-    // Folhas da esquerda
+
     No *n1 = criarNo();
     n1->numChaves = 2;
     n1->chaves[0] = 10;
@@ -87,7 +109,7 @@ int main(void)
     esq->filhos[2] = n3;
 
 
-    // Folhas da direita
+    
     No *n4 = criarNo();
     n4->numChaves = 2;
     n4->chaves[0] = 110;
@@ -112,9 +134,14 @@ int main(void)
     dir->filhos[2] = n6;
 
     printf("Arvore B:\n\n");
-    imprimir(raiz, 0);
+    imprimir(n2, 0);
 
 
+    int lim_inf = 50;
+    int lim_sup = 100;
+    printf("\nChaves no intervalo (%d < x < %d): ", lim_inf, lim_sup);
+    intervalo(raiz, lim_inf, lim_sup);
+    printf("\n");
 
     return 0;
 }
